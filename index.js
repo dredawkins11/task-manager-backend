@@ -31,7 +31,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 app.use(morgan(":date[web] :method :url :status :token-sig", { dev: true }))
 app.use(authenticateToken);
