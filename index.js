@@ -23,7 +23,18 @@ morgan.token("token-sig", (req, res) => {
   return tokenSig;
 })
 
-app.use(cors({origin: '*'}));
+var whitelist = ['http://localhost:8080', 'http://task-manager-project-frontend.s3-website.us-east-2.amazonaws.com/']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Origin not allowed'))
+    }
+  }
+}
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(morgan(":date[web] :method :url :status :token-sig", { dev: true }))
 app.use(authenticateToken);
