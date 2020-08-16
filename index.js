@@ -23,15 +23,7 @@ morgan.token("token-sig", (req, res) => {
   return tokenSig;
 })
 
-app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', 'http://task-manager-project-frontend.s3-website.us-east-2.amazonaws.com');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  next();
-});
-
-app.use(cors());
+app.use(cors({origin: '*'}));
 app.use(express.json());
 app.use(morgan(":date[web] :method :url :status :token-sig", { dev: true }))
 app.use(authenticateToken);
