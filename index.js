@@ -4,7 +4,6 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const authenticateToken = require("./middleware/authenticateToken");
-const logger = require("./middleware/logger");
 const tasks = require("./routes/tasks");
 const users = require("./routes/users");
 const login = require("./routes/login");
@@ -24,7 +23,18 @@ morgan.token("token-sig", (req, res) => {
   return tokenSig;
 })
 
-app.use(cors());
+var whitelist = ['http://localhost:8080', 'http://task-manager-project-frontend.s3-website.us-east-2.amazonaws.com/']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Origin not allowed'))
+    }
+  }
+}
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(morgan(":date[web] :method :url :status :token-sig", { dev: true }))
 app.use(authenticateToken);
