@@ -30,7 +30,6 @@ router.post("/", async (req, res) => {
 
 router.get("/", async (req, res) => {
   /* Check whether a user with the specified name exists */
-  console.log(req.body.username)
   const user = await User.findOne({ username: req.body.username });
   if (user) {
     res.send(false);

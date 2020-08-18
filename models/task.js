@@ -33,7 +33,6 @@ function validate(task) {
     userId: Joi.string(),
     createdAt: Joi.string(),
   });
-  console.log(Joi.validate(task, schema))
   return Joi.validate(task, schema);
 }
 
